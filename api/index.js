@@ -1,7 +1,14 @@
 const express = require('express');
 const config = require('../config.js');
+const bodyParser= require('body-parser');
 const app = express();
 const user = require('./components/user/network');
+
+//middleware
+
+app.use(bodyParser.urlencoded({ extended: false }))
+
+app.use(bodyParser.json())
 // ROUTES
 app.use('/api/user', user);
 
