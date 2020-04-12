@@ -27,9 +27,11 @@ async function get(tabla, id) {
 };
 
 async function upsert(tabla, data) {
-    console.log(data)
+    if(!db[tabla]) {
+        db[tabla] = [];
+    }
     db[tabla].push(data);
-    return data
+    console.log(db);
 };
 
 
