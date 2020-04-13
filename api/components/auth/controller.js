@@ -1,3 +1,4 @@
+const auth = require('../../../auth')
 const TABLA = 'auth';
 
 // auth entity
@@ -8,12 +9,23 @@ module.exports = function(injectedStore) {
         store = require('../../../store/dummy');
     }
 
+    async function login(username, password) {
+        //defining where is the dat a coming
+        const data = await store.query(TABLA, { username: username })
+        console.log(data, 'auth controller');
+        if (data.password === password) {
+            // generate token
+            return auth.sign(data);
+        } else {
+            throw new Error('Invalid information')
+        }
+    }
     function upsert(data) {
         // make sure id is coming
         const authData = {
             id: data.id,
         }
-        // spliting to create only data we need
+        // sorting out to create only data we need
         if (data.username) {
             authData.username = data.username;
         }
@@ -26,5 +38,6 @@ module.exports = function(injectedStore) {
 
     return {
         upsert,
+        login,
     }
 };
