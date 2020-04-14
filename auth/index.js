@@ -1,6 +1,8 @@
 const jwt = require('jsonwebtoken');
 
 const config = require('../config')
+const error = require('../utils/error');
+
 const secret = config.jwt.secret;
 
 function sign(data) {
@@ -18,7 +20,7 @@ const check = {
         console.log(decoded);
         // ckecking if decoded belong to user
         if (decoded.id !== owner) {
-            throw new Error('Not allow', 401)
+            throw error('Not allow', 401)
         }
     },
 }
