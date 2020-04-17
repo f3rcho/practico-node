@@ -28,11 +28,11 @@ const check = {
 function getToken(auth) {
     // Bearer a6f5s1e3f5e3f53ef53ef51s3ef5 example
     if (!auth) {
-        throw new Error('Not token');
+        throw error ('Not token');
     }
     //checking format token is correct
     if (auth.indexOf('Bearer ') === -1) {
-        throw new Error('Invalid format')
+        throw error('Invalid format')
     }
     // removing the first part of the token: 'Bearer '
     let token = auth.replace('Bearer ', '');

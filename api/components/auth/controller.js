@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt');
 const auth = require('../../../auth')
 const TABLA = 'auth';
+const error = require('../../../utils/error')
 
 // auth entity
 module.exports = function(injectedStore) {
@@ -21,7 +22,7 @@ module.exports = function(injectedStore) {
                     // generate token
                     return auth.sign(data);
                 } else {
-                    throw new Error('Invalid information')
+                    throw error('Invalid information')
                 }
             })
     }
