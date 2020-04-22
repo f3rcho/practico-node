@@ -14,13 +14,15 @@ module.exports = function(injectedStore) {
     async function login(username, password) {
         //defining where is the dat a coming
         const data = await store.query(TABLA, { username: username })
-        // console.log(data, 'auth controller');
-
+        console.log(password, 'auth controller');
+        console.log(data, 'auth data controller');
+        console.log(data.password, 'auth data.pass')
         return bcrypt.compare(password, data.password)
             .then(sonIguales => {
                 if (sonIguales === true) {
                     // generate token
-                    return auth.sign(data);
+                    console.log(data, 'inner data')
+                    return auth.sign({ ...data});
                 } else {
                     throw error('Invalid information')
                 }
