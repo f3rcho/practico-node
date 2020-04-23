@@ -23,6 +23,9 @@ const check = {
             throw error('Not allow', 401)
         }
     },
+    logged: function(req, owner) {
+        const decoded = decodedHeader(req);
+    },
 }
 
 function getToken(auth) {

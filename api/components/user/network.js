@@ -9,6 +9,8 @@ const router = express.Router();
 // spliting routes from functions
 //routes
 router.get('/', list)
+router.post('/follow/:id', secure('follow'),follow)
+router.get('/:id/following', following);
 router.get('/:id', get)
 router.post('/', upsert)
 router.put('/', secure('update'), upsert)
@@ -37,12 +39,28 @@ function upsert(req, res, next) {
 };
 
 function remove(req, res, next) {
-    console.log(req.params, 'network')
+
     Controller.remove(req.params.id)
         .then((user) => {
             response.success(req, res, user, 200);
         })
         .catch (next);
 };
+
+function follow(req, res, next) {
+    Controller.follow(req.user.id, req.params.id)
+        .then(data => {
+            response.success(req, res, data, 201)
+        })
+        .catch(next);
+};
+
+function following(req, res, next) {
+    Controller.following(req.params.id)
+        .then(data => {
+            response.success(req, res, data, 201);
+        })
+        .catch(next);
+}
 
 module.exports = router;

@@ -51,9 +51,9 @@ function list(table) {
 
 function get(table, id) {
     return new Promise((resolve, reject) =>{
-        connection.query(` SELECT * FROM ${table} WHERE id='${id}'`, (err, data) => {
+        connection.query(` SELECT * FROM ${table} WHERE id='${id}'`, where, (err, data) => {
             if (err) return reject(err)
-            resolve (data)
+            resolve(data)
         })
     })
 }
@@ -76,20 +76,27 @@ function update(table, data) {
     });
 };
 
-function upsert(table, data) {
-    if (data && data.id) {
-        return update(table, data);
-    } else {
-        return insert(table, data);
+
+const upsert = async (table, payload) =>
+    new Promise((resolve, reject) => {
+        connection.query(`INSERT INTO ${table} SET ? ON DUPLICATE KEY UPDATE ?`, [payload, payload], (error, data) => {
+            console.log('UPDATE DATA: ', data)
+            if (error) {
+                return reject(error)
+            }
+            resolve(data)
+        })
+    })
+
+function query(table, query, join) {
+    let joinQuery = '';
+    if (join) {
+        const key = Object.keys(join)[0];
+        const val = join[key];
+        joinQuery = `JOIN ${key} ON ${table}.${val} = ${key}.id`;
     }
-};
-
-function query(table, query) {
-    console.log(query, 'query')
-    console.log(table, 'table')
-
     return new Promise((resolve, reject) => {
-        connection.query(`SELECT * FROM ${table} WHERE ?`, query, (err, res) => {
+        connection.query(`SELECT * FROM ${table} ${joinQuery} WHERE ${table}.?`, query, (err, res) => {
             if (err) return reject(err);
             resolve(res[0] || null);
         })
