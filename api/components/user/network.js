@@ -39,7 +39,6 @@ function upsert(req, res, next) {
 };
 
 function remove(req, res, next) {
-
     Controller.remove(req.params.id)
         .then((user) => {
             response.success(req, res, user, 200);
