@@ -2,16 +2,20 @@ module.exports = {
     api: {
         port: process.env.API_PORT || 3000,
     },
+    post: {
+        port: process.env.POST_PORT || 3002,
+    },
     jwt: {
         secret: process.env.JWT_SECRET || 'notasecret!',
     },
     mysql: {
-        host: process.env.MYSQL_HOST || 'sql10.freemysqlhosting.net',
-        user: process.env.MYSQL_USER || 'sql10334000',
-        password: process.env.MYSQL_PASSWORD || '5xbgyzF3ru',
-        database: process.env.MYSQL_DB || 'sql10334000',
+        host: process.env.MYSQL_HOST || 'db4free.net',
+        user: process.env.MYSQL_USER || 'practico_node',
+        password: process.env.MYSQL_PASSWORD || 'db4free1',
+        database: process.env.MYSQL_DB || 'practico_node',
     },
     mysqlService: {
+        host: process.env.MYSQL_SVR_HOST || 'localhost',
         port: process.env.MYSQL_SVR_PORT || 3001,
     },
 }
