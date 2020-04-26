@@ -19,5 +19,5 @@ app.use(errors);
 
 // SERVER LISTENING
 app.listen(config.post.port, () => {
-    console.log(`Api listening on port http://localhost:${config.post.port}/api/user`);
+    console.log(`Post service listening on port http://localhost:${config.post.port}/api/post`);
 });
