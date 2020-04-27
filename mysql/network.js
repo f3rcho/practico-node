@@ -7,8 +7,8 @@ const router = express.Router();
 
 router.get('/:table', list);
 router.get('/:table/:id', get);
-router.post('/table', insert);
-router.put('/table', upsert)
+router.post('/:table', insert);
+router.put('/:table', upsert)
 router.post('/:table/query', query)
 
 async function list(req, res, next) {
