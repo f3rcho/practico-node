@@ -5,16 +5,30 @@ const auth = require('../auth')
 const TABLA = 'user';
 
 // function created to injec the store
-module.exports = function(injectedStore) {
+module.exports = function(injectedStore, injectedCache) {
     // validating if store exist
     let store = injectedStore;
+    let cache = injectedCache
     if (!store) {
         store = require('../../../store/dummy');
     }
-    // one validation is false use the function require from db
-    function list() {
-        return store.list(TABLA);
+    if (!cache) {
+        cache = require('../../../store/dummy');
     }
+    // one validation is false use the function require from db
+    async function list() {
+        let users = await cache.list(TABLA);
+
+        if (!users) {
+            console.log('No estaba en cache. Buscando en DB')
+            users = await store.list(TABLA)
+            cache.upsert(TABLA, users);
+        } else {
+            console.log('nos traemos de cache');
+        }
+        return users;
+    }
+
     function get(id) {
         return store.get(TABLA, id);
     }

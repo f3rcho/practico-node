@@ -31,7 +31,7 @@ async function upsert(table, data) {
         key = data + '_' + data.id;
     };
 //seting data and expiration time
-    client.setex(key, 60, JSON.stringify(data));
+    client.setex(key, 10, JSON.stringify(data));
     return true;
 };
 
